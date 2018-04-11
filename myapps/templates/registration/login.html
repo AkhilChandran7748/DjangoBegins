@@ -1,0 +1,15 @@
+<form action="/validatelogin" method="post">{% csrf_token%}
+    <body>
+    <center><h1>Login</h1>
+        <table>
+            <tr><td>Email-id</td><td><input type="text" name="email"></td></tr>
+            <tr><td>Password</td><td><input type="password" name="password"></td></tr>
+            </tr>
+            <tr ><td align="center" colspan="2"><input type="submit" value="Sign In"><input type="Reset" value="Cancel"></td></tr>
+          <tr ><td align="center" colspan="2"><a href="forgotpass.html">Forgot Password??</a>
+          <a href="registration.html" style="color:cyan">New Member? Register Here</a> </td></tr>
+
+        </table>
+    </center>
+    </body>
+</form>

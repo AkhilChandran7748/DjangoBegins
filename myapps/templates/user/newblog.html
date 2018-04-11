@@ -1,0 +1,24 @@
+ <h3>Add a New Blog</h3>
+
+
+    <p><strong></strong></p>
+
+<form action="/createblog" method="post">
+    {% csrf_token%}
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <table class="table table-hover">
+                    <tr><td>Blog Title</td><td><input type="text" name="title" class="form-control"></td></tr>
+                <tr><td>Blog Content</td><td><textarea class="form-control" name="content" cols="33"></textarea></td></tr>
+                </table>
+            </div>
+        </div>
+        </div>
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</form>

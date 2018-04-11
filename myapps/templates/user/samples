@@ -1,0 +1,13 @@
+
+
+{% if l %}
+    <ul>
+    {% for blog in l %}
+        <li>
+            <u> {{ blog.Blog_title }}</u>
+            {{ blog.Blog_content }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No blogs are available.</p>
+{% endif %}

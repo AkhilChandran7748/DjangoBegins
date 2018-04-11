@@ -1,0 +1,14 @@
+
+<h1>My Blogs...</h1>
+{% if blogs %}
+    <ul>
+    {% for blog in blogs %}
+        <li>
+            <u> {{ blog.Blog_title }}</u>:<br>
+            {{ blog.Blog_content }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No blogs are available.</p>
+{% endif %}
+<a href="user_home.html">Back Home</a>

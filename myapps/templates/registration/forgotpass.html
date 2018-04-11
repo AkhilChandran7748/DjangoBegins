@@ -1,0 +1,74 @@
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+	function check_pass()
+
+	{
+
+
+		var p1=document.getElementById('password').value;
+
+		var p2=document.getElementById('confirm_password').value;
+
+		if ( p1==p2)
+		{
+
+		$("span").css("color", "green");
+
+
+		document.getElementById('status').innerHTML =" passwords match";
+
+		document.getElementById('a').disabled = false;
+
+		}
+		else
+		{
+
+		$("span").css("color", "red");
+
+
+		document.getElementById('status').innerHTML ="passwords doesn't match";
+
+		document.getElementById('a').disabled = true;
+
+		}
+
+	}
+
+</script>
+</head>
+<form action="/resetpass" method="post">{% csrf_token%}
+    <body>
+    <center><h1>Reset Password</h1>
+        <table>
+
+            <tr><td>Email-id</td><td><input type="email" name="email"></td></tr>
+
+            <tr><td>Security Question</td>
+                <td><select name="seq">
+                    <option>--Select--</option>
+                    <option value="petname">What is your petname?</option>
+                    <option value="food">What is your favorite Food?</option>
+                    <option value= "sports">What is your favorite Sports?</option>
+                    </select>
+                </td>
+            </tr>
+            <tr><td></td><td><input type="text" name="seqans" placeholder="Your answer"></td></tr>
+             <tr><td>Password</td><td><input type="password" name="password" id="password"></td></tr>
+
+            <tr><td>Re Enter Password</td><td><input type="password" name="password1" id="confirm_password" onkeyup="check_pass();"></td>
+                <td><span style="color:red" id="status"></span></td></tr>
+
+            <tr ><td align="center" colspan="2"><input type="submit" id="a" value="Reset"><input type="Reset" value="Cancel"></td></tr>
+
+
+        </table>
+    </center>
+    </body>
+</form>
+</html>
