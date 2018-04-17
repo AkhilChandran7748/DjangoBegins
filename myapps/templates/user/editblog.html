@@ -1,0 +1,30 @@
+<center>
+ <h1>Add a New Blog</h1>
+
+<a href="user_home.html">Back Home</a>
+
+    <p><strong></strong></p>
+
+<form action="/updateblog" method="post">
+    {% csrf_token%}
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+
+                <table class="table table-hover">
+                    {% for item in blogs %}
+                    <input type="hidden" name="hid" value="{{item.id}}">
+                    <tr><td>Blog Title</td><td><input type="text" name="title" class="form-control" value="{{item.Blog_title}}"></td></tr>
+                <tr><td>Blog Content</td><td><textarea class="form-control" name="content" cols="33">{{item.Blog_content}}</textarea></td></tr>
+               {% endfor %}
+                </table>
+            </div>
+        </div>
+        </div>
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-success">Update</button>
+        </div>
+    </div>
+</form>

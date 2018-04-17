@@ -1,14 +1,25 @@
 
-<h1>My Blogs...</h1>
-{% if blogs %}
-    <ul>
-    {% for blog in blogs %}
-        <li>
-            <u> {{ blog.Blog_title }}</u>:<br>
-            {{ blog.Blog_content }}</li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+</head>
+<body>
+    <h1>My Blogs</h1>
+    <a href="user_home.html">Back Home</a>
+    <table align="center" border="3">{% for item in blogs %}
+    <tr>
+
+    <th style="text-align:left">{{item.Blog_title}}</th>
+    </tr>
+    <tr>
+
+    <td style="height:100px;width:300px">{{item.Blog_content}}</td>
+    </tr>
+        <tr><td><a href="blogid={{item.id}}">Edit Blog</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </td></tr>
     {% endfor %}
-    </ul>
-{% else %}
-    <p>No blogs are available.</p>
-{% endif %}
-<a href="user_home.html">Back Home</a>
+    </table>
+</body>
+</html>

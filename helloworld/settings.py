@@ -55,7 +55,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'helloworld.urls'
-LOGIN_REDIRECT_URL = '/'
+
+LOGIN_REDIRECT_URL = '/home/'
 
 TEMPLATES = [
     {

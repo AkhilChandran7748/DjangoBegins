@@ -22,6 +22,9 @@ class Blogs(models.Model):
         return self.Blog_title
 
 # Create your models here.
+class Like(models.Model):
+    uid=models.IntegerField(max_length=5)
+    bid = models.IntegerField(max_length=5)
 ''''
 
 '''
