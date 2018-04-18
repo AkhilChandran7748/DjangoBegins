@@ -3,22 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function comment(x){
+
+
+         divid="#"+x
+    $.ajax({url: "ajax.html", success: function(result){
+
+        $(divid).html(result);
+    }});
+    }
+    </script>
+    <script>
+
+
+    </script>
 </head>
 <body>
 <h1>Explore</h1>
-<a href="user_home.html">Back Home</a>
-<table align="center" border="3">{% for item in myblogs %}
-<tr>
+<a href="user_home.html" >Back Home</a>
+
+
+
+
+<table align="center" border="3">{% for item,like,count in d %}
+
+    <tr>
 
 <th style="text-align:left">{{item.Blog_title}}</th>
 </tr>
 <tr>
 
 <td style="height:100px;width:300px">{{item.Blog_content}}</td>
-</tr>
-    <tr><td><a href="likeid={{item.id}}">Like</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-        <a href="commentid={{item.id}}">Comment</a></tr>
+</tr>
+    <tr><td colspan="2">{{like}} likes..</td></tr>
+
+    <tr><td>
+        {% if count == True %}
+            <a href="likeid={{item.id}}">Like</a>
+        {% else %}
+            <a href="#" style="color:red">Liked</a>
+        {% endif%}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <a href="#"  onclick="comment({{item.id}})">Comment</a>
+    </td>
+    </tr>
+    <tr>
+        <td><div id="{{item.id}}"></div></td>
+    </tr>
+
 {% endfor %}
 </table>
 </body>

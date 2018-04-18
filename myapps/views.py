@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from myapps.models import Users,Blogs
+from myapps.models import Users,Blogs,Like
 from myapps.serializers import UserSerializer,BlogSerializer
 from rest_framework import viewsets,generics
 from rest_framework.decorators import api_view
@@ -15,9 +15,25 @@ class AllBlogs(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'user/allblogs.html'
     def get(self, request):
+        curuser = request.user
+        uid=curuser.id
         queryset = Blogs.objects.all()
         serializer_class = BlogSerializer
-        return Response({'myblogs':queryset})
+        count=0
+        c=[]
+        lc=[]
+        for i in queryset:
+            q = Like.objects.filter(bid=i.id)
+            r = Like.objects.filter(bid=i.id,uid=uid)
+            #print(r.count)
+            if r.count()==0:
+                lc.append(True)
+            else:
+                lc.append(False)
+            #lc.append(r.count())
+            c.append(q.count())
+        d=zip(queryset, c,lc)
+        return Response({'myblogs':queryset,'c':c,'d':d})
 
 
 
@@ -53,6 +69,32 @@ class Reset(TemplateView):
 class Backhome(TemplateView):
     template_name = 'registration/user_home.html'
 
+
+def addLike(request,pk):
+    like=Like()
+    like.bid=pk
+    curuser=request.user
+
+    like.uid=curuser
+    like.save()
+
+    queryset = Blogs.objects.all()
+    c = []
+    lc = []
+    for i in queryset:
+        q = Like.objects.filter(bid=i.id)
+        r = Like.objects.filter(bid=i.id, uid=curuser.id)
+        # print(r.count)
+        if r.count() == 0:
+            lc.append(True)
+        else:
+            lc.append(False)
+        # lc.append(r.count())
+        c.append(q.count())
+    d = zip(queryset, c, lc)
+    return  render(request,'user/allblogs.html',{ 'd': d})
+
+
 def register(request):
     if request.method=='POST':
         if request.POST.get('fname') and request.POST.get('lname')  and request.POST.get('email')and request.POST.get('password')and request.POST.get('seq')and request.POST.get('seqans') :
@@ -64,6 +106,9 @@ def register(request):
             post.seq = request.POST.get('seq')
             post.ans = request.POST.get('seqans')
             post.save()
+
+
+
             auth_user=User()
             auth_user.first_name=request.POST.get('fname')
             auth_user.last_name=request.POST.get('lname')
@@ -71,6 +116,7 @@ def register(request):
             auth_user.username=request.POST.get('email')
             password=request.POST.get('password')
             auth_user.set_password(password)
+
             auth_user.is_superuser = 1
             auth_user.save()
             #form=UserCreationForm()
@@ -163,9 +209,35 @@ def resetPassword(request):
     return output
 
 
+from django.contrib.auth import logout
 
+def logout_view(request):
+    logout(request)
+   # django.contrib.auth.logout()
+    return render(request, 'registration/home.html')
 # Create your views here.
 
 
 
 # Create your views here.
+
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render, redirect
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('login')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'user/change_password.html', {
+        'form': form
+    })

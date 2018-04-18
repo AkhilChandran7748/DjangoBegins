@@ -23,8 +23,8 @@ class Blogs(models.Model):
 
 # Create your models here.
 class Like(models.Model):
-    uid=models.IntegerField(max_length=5)
-    bid = models.IntegerField(max_length=5)
-''''
+    uid=models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    bid = models.IntegerField()
 
-'''
+
+
