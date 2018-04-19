@@ -23,39 +23,33 @@
 <body>
 <h1>Explore</h1>
 <a href="user_home.html" >Back Home</a>
-
-
-
-
-<table align="center" border="3">{% for item,like,count in d %}
-
-    <tr>
-
-<th style="text-align:left">{{item.Blog_title}}</th>
-</tr>
-<tr>
-
-<td style="height:100px;width:300px">{{item.Blog_content}}</td>
-
-</tr>
-    <tr><td colspan="2">{{like}} likes..</td></tr>
-
-    <tr><td>
-        {% if count == True %}
-            <a href="likeid={{item.id}}">Like</a>
-        {% else %}
-            <a href="#" style="color:red">Liked</a>
-        {% endif%}
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-        <a href="#"  onclick="comment({{item.id}})">Comment</a>
-    </td>
-    </tr>
-    <tr>
-        <td><div id="{{item.id}}"></div></td>
-    </tr>
-
+{% for item,like,count in d %}
+    <form action="/addcomment" method="post">
+        <div class="blog" style="
+        border: 1px solid darkred;
+        background: lightcyan;
+        height: 233px;
+        width: 500px;
+        border-radius: 16px;
+        margin-left: 300px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        align:center">
+            <h4 style="background: darkseagreen;"> {{item.Blog_title}} </h4>
+            {{item.Blog_content}}<br>
+           <br><br><br> {{like}} likes..<br>
+            <input type="hidden" name="hid" value="{{item.id}}">
+            {% if count == True %}
+                <a href="likeid={{item.id}}">Like</a>
+            {% else %}
+                <a href="#" style="color:red">Liked</a>
+            {% endif%}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="#"  onclick="comment({{item.id}})">Comment</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="viewid={{item.id}}">View...</a>
+            <div id="{{item.id}}"></div>
+        </div>
+    </form>
 {% endfor %}
-</table>
 </body>
 </html>

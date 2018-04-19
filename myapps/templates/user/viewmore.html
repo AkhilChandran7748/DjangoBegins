@@ -1,0 +1,27 @@
+<body>
+<h1>Explore</h1>
+<a href="/backblog" >Back</a>
+
+
+            <div style="
+
+            border-radius: 15px;
+            height: 350;
+            width: 467;
+            margin-left: 250;
+               }">
+            <h3 style="background: darkseagreen;"> {{blog.Blog_title}} </h3>
+            {{blog.Blog_content}}<br><br>
+                <h5><u>Comments</u></h5>    <br>
+            {% for item,user in cmt %}
+                <span style="background: cornflowerblue;">{{user}}:</span><br>
+                <span style="margin-top: 5px;
+                    margin-bottom: 5px;">{{item.comment}}</span><br><br>
+            {% endfor %}
+
+            </div>
+
+
+
+</body>
+</html>

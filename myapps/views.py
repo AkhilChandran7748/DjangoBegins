@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
-from myapps.models import Users,Blogs,Like
+from myapps.models import Users,Blogs,Like,Comment
 from myapps.serializers import UserSerializer,BlogSerializer
 from rest_framework import viewsets,generics
 from rest_framework.decorators import api_view
@@ -70,6 +71,19 @@ class Backhome(TemplateView):
     template_name = 'registration/user_home.html'
 
 
+def viewMore(request,pk):
+    blog = Blogs.objects.get(id=pk)
+    comments=Comment.objects.filter(bid=blog.id)
+    l=comments.count()
+    u=[]
+    for i in range(0,l):
+        uname=comments[i].uid
+        u.append(uname.username)
+    print(u)
+    d = zip(comments, u)
+    return render(request, 'user/viewmore.html', {'blog': blog,'cmt':d})
+
+
 def addLike(request,pk):
     like=Like()
     like.bid=pk
@@ -79,8 +93,8 @@ def addLike(request,pk):
     like.save()
 
     queryset = Blogs.objects.all()
-    c = []
-    lc = []
+    c = [] # likes for a blog
+    lc = [] #like count for a user
     for i in queryset:
         q = Like.objects.filter(bid=i.id)
         r = Like.objects.filter(bid=i.id, uid=curuser.id)
@@ -149,11 +163,34 @@ def login(request):
             output = render(request, 'registration/login.html')
         return output
 
+@csrf_exempt
+def addcomment(request):
 
-
-
-
-
+            comment= request.POST.get('comment')
+            curuser = request.user
+            uid = curuser
+            bid=request.POST.get('hid')
+            cmt=Comment()
+            cmt.uid=uid
+            cmt.bid=bid
+            cmt.comment=comment
+            cmt.save()
+            print("ID:",bid)
+            queryset = Blogs.objects.all()
+            c = []
+            lc = []
+            for i in queryset:
+                q = Like.objects.filter(bid=i.id)
+                r = Like.objects.filter(bid=i.id, uid=curuser.id)
+                # print(r.count)
+                if r.count() == 0:
+                    lc.append(True)
+                else:
+                    lc.append(False)
+                # lc.append(r.count())
+                c.append(q.count())
+            d = zip(queryset, c, lc)
+            return render(request, 'user/allblogs.html', {'d': d})
 
 def updateblog(request):
 

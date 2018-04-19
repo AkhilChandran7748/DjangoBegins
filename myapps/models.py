@@ -26,5 +26,9 @@ class Like(models.Model):
     uid=models.ForeignKey('auth.User', on_delete=models.CASCADE)
     bid = models.IntegerField()
 
-
-
+class Comment(models.Model):
+    uid=models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    bid = models.IntegerField()
+    comment=models.CharField(max_length=50)
+    def __str__(self):
+        return self.comment

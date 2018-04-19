@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'logout', views.logout_view, name='logout'),
     #url(r'^home', views.IndexView.as_view(), name='index'),
     url(r'^user/ajax', TemplateView.as_view(template_name='user/ajax.html')),
+    url(r'^ajax', TemplateView.as_view(template_name='user/ajax.html')),
     # modelforms/product/entry
     url(r'registration',views.Registration.as_view()),
     url(r'forgot',views.Forgot.as_view()),
@@ -26,16 +27,22 @@ urlpatterns = [
     url(r'newblog', views.NewBlog.as_view()),
     url(r'^createblog', views.addblog,name='new-blog'),
     url(r'^updateblog', views.updateblog,name='new-blog'),
+    url(r'^addcomment', views.addcomment,name='new-comment'),
     url(r'^resetpass', views.resetPassword,name='forgot-password'),
     url(r'allblogs', views.AllBlogs.as_view(), name='all blogs'),
+    url(r'backblog', views.AllBlogs.as_view(), name='all blogs'),
     url(r'reset', views.Reset.as_view()),
     url(r'^user/user_home', views.Backhome.as_view()),
+    url(r'^user_home', views.Backhome.as_view()),
 
     url(r'^user/blogid=(?P<pk>[0-9]+)$', views.editBlog, name='index'),
 
 
     url(r'^password/$', views.change_password, name='change_password'),
-    url(r'^user/likeid=(?P<pk>[0-9]+)$', views.addLike, name='likes')
+    url(r'^user/viewid=(?P<pk>[0-9]+)$', views.viewMore, name='viewmore'),
+    url(r'^user/likeid=(?P<pk>[0-9]+)$', views.addLike, name='likes'),
+    url(r'^viewid=(?P<pk>[0-9]+)$', views.viewMore, name='viewmore'),
+    url(r'^likeid=(?P<pk>[0-9]+)$', views.addLike, name='likes')
     #url(r'images/like',views.like.as_view())
 
 
